@@ -2,7 +2,7 @@ Build and use LMDB in zig.
 
 # Build Dependencies
 
-[Zig `0.13`](https://ziglang.org/download/)
+[Zig 0.13](https://ziglang.org/download/)
 
 # Usage
 
@@ -21,7 +21,7 @@ You can use this with any language or build system.
 
 Fetch `lmdb` and save it to your `build.zig.zon`:
 ```
-$ zig fetch --save=lmdb https://github.com/Syndica/lmdb-zig/archive/<COMMIT_HASH>.tar.gz
+zig fetch --save=lmdb https://github.com/Syndica/lmdb-zig/archive/<COMMIT_HASH>.tar.gz
 ```
 
 Add the import to a module:
