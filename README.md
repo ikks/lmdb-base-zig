@@ -8,7 +8,7 @@ Build and use LMDB in zig.
 
 Supported use cases:
 - [⬇️](#build-lmdb) Build a LMDB static library using the zig build system.
-- [⬇️](#import-lmdb-c-api-in-a-zig-project) Use the LMDB C API through auto-generated Zig bindings.
+- [⬇️](#import-lmdb-in-a-zig-project) Import LMDB in a zig project.
 
 ## Build LMDB
 Clone this repository, then run `zig build`. 
