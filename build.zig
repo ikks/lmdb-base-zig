@@ -8,7 +8,7 @@ pub fn build(b: *Build) void {
     const optimize = b.standardOptimizeOption(.{});
 
     // get c library
-    const lmdb_dep = b.dependency("lmdb", .{});
+    const lmdb_dep = b.dependency("lmdb", .{ .target = target, .optimize = optimize });
     const lmdb_path = lmdb_dep.path("libraries/liblmdb");
 
     // expose c library as zig library
@@ -17,7 +17,7 @@ pub fn build(b: *Build) void {
         .target = target,
         .optimize = optimize,
     });
-    const mod = b.addModule("lmdb", .{
+    const mod = b.addModule("lmdb-mod", .{
         .root_source_file = translate_c.getOutput(),
         .target = target,
         .optimize = optimize,
