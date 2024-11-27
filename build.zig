@@ -17,31 +17,33 @@ pub fn build(b: *Build) void {
         .target = target,
         .optimize = optimize,
     });
-    const mod = b.addModule("lmdb-mod", .{
-        .root_source_file = translate_c.getOutput(),
-        .target = target,
-        .optimize = optimize,
-        .link_libc = true,
-    });
 
-    // build c library
     const liblmdb_a = b.addStaticLibrary(.{
         .name = "lmdb",
         .target = target,
         .optimize = optimize,
     });
-    liblmdb_a.linkLibC();
-    liblmdb_a.addIncludePath(lmdb_path);
+    // build c library
     liblmdb_a.addCSourceFiles(.{
         .root = lmdb_path,
         .files = &.{ "mdb.c", "midl.c" },
     });
+
     liblmdb_a.installHeadersDirectory(lmdb_path, "", .{ .include_extensions = &.{"lmdb.h"} });
+    liblmdb_a.addIncludePath(lmdb_path);
+    liblmdb_a.linkLibC();
     liblmdb_a.installHeader(lmdb_dep.path("libraries/liblmdb/lmdb.h"), "lmdb.h");
     b.installArtifact(liblmdb_a);
+
+    const mod = b.addModule("lmdb", .{
+        .root_source_file = translate_c.getOutput(),
+        .target = target,
+        .optimize = optimize,
+        .link_libc = true,
+    });
     mod.addIncludePath(.{ .cwd_relative = b.pathJoin(&.{ b.install_path, "include" }) });
-    mod.addIncludePath(lmdb_path);
     mod.linkLibrary(liblmdb_a);
+    mod.addIncludePath(lmdb_path);
 
     // test c library in zig
     const test_step = b.step("test", "Run tests");
