@@ -36,7 +36,10 @@ pub fn build(b: *Build) void {
         .root = lmdb_path,
         .files = &.{ "mdb.c", "midl.c" },
     });
+    liblmdb_a.installHeadersDirectory(lmdb_path, "", .{ .include_extensions = &.{"lmdb.h"} });
+    liblmdb_a.installHeader(lmdb_dep.path("libraries/liblmdb/lmdb.h"), "lmdb.h");
     b.installArtifact(liblmdb_a);
+    mod.addIncludePath(.{ .cwd_relative = b.pathJoin(&.{ b.install_path, "include" }) });
     mod.addIncludePath(lmdb_path);
     mod.linkLibrary(liblmdb_a);
 
